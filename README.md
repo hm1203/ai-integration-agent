@@ -1,14 +1,23 @@
 # AI Integration Agent
 
-A small, self-contained demo that wraps a REST API (a mock enterprise
-timekeeping system) as tools an AI agent can call — the same core pattern
-used in enterprise "API-led connectivity" integration, applied to AI agent
-tooling instead of a human-facing frontend.
+An AI agent that can answer questions about employee
+timesheets by calling a real backend API — not by guessing. Ask it "which
+employees have overtime anomalies this week?" and it actually looks up
+the data, checks the numbers, flags the problem records, and tells you
+in plain English what it found.
 
-Enterprise integration platforms are increasingly being asked to expose existing System/Process APIs as "agent-ready" tools
-so AI agents can act on real data instead of guessing. This project is a
-minimal, from-scratch implementation of that idea: a real API, a tool
-schema layer, and an LLM agent loop that decides which API calls to make.
+# Why it matters: 
+Most "AI demos" just chat with a language model.
+This one connects an AI agent to a real system the way enterprise
+integration teams do it — with a clean API layer in between, so the AI
+can't hallucinate data and every action it takes is auditable. This is
+the same pattern behind enterprise integration platforms exposing
+existing systems as "agent-ready" tools: instead of an AI guessing at
+answers, it calls governed, well-defined APIs to get real ones.
+
+# In short: it's a working example of applying enterprise API design
+(the kind used in large-scale system integration) to AI agent tooling —
+built from scratch to show that combination of skills in action.
 
 ## Architecture
 
@@ -77,6 +86,19 @@ The agent will print which tools it's calling (so you can see the
 decision-making), then give a plain-English answer. When it finds
 overtime anomalies, it will actually call `flag_anomaly` against the
 mock API — you can verify this persisted by re-querying the API.
+
+# Example
+
+You: Which employees have overtime anomalies this week?
+
+  [tool call] list_employees({})
+  [tool call] get_timesheet({'employee_id': 'E1003'})
+  [tool call] get_timesheet({'employee_id': 'E1017'})
+  [tool call] flag_anomaly({'employee_id': 'E1003', 'reason': 'Overtime 18.4 hrs exceeds 10 hr threshold'})
+
+Agent: I found 1 employee with an overtime anomaly this week: E1003
+(18.4 hrs of overtime, well above the 10-hour threshold). I've flagged
+this record for review. All other employees are within normal range.
 
 ## What this demonstrates
 
