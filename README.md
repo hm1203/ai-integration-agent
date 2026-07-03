@@ -5,8 +5,7 @@ timekeeping system) as tools an AI agent can call — the same core pattern
 used in enterprise "API-led connectivity" integration, applied to AI agent
 tooling instead of a human-facing frontend.
 
-**Why this exists:** Enterprise integration platforms are increasingly
-being asked to expose existing System/Process APIs as "agent-ready" tools
+Enterprise integration platforms are increasingly being asked to expose existing System/Process APIs as "agent-ready" tools
 so AI agents can act on real data instead of guessing. This project is a
 minimal, from-scratch implementation of that idea: a real API, a tool
 schema layer, and an LLM agent loop that decides which API calls to make.
@@ -89,17 +88,5 @@ mock API — you can verify this persisted by re-querying the API.
   shift integration platforms like MuleSoft are building toward with
   agent-ready API exposure (MCP support, Agent Fabric, etc.)
 
-## Extending it
 
-Ideas if you want to keep building on this:
-- Swap `mock_api.py` for a real public API (e.g. a weather or GitHub API)
-- Add authentication (API key or OAuth2) to the mock API and have the
-  agent handle auth headers — mirrors real System API security patterns
-- Add a second "Process API" layer that combines multiple System API calls
-  before the agent ever sees them
-- Deploy `mock_api.py` to Render/Railway (free tier) and point `agent.py`
-  at the live URL instead of localhost
 
-## License
-
-MIT — use this however you like.
